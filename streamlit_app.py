@@ -3,6 +3,7 @@ import streamlit as st
 
 from security.guardrails import is_safe_prompt, get_block_reason
 from tools.pdf_tool import generate_pdf
+from tools.filesystem_tool import save_report
 
 # Safe import
 try:
@@ -29,20 +30,29 @@ with st.sidebar:
 
     st.title("🌍 SentinelAI")
 
-    st.success("✅ Google ADK")
-    st.success("✅ Multi-Agent System")
-    st.success("✅ Google Search Tool")
-    st.success("✅ Agent Skills")
+    st.markdown("## Features")
 
-    st.info("📁 Filesystem Layer")
-    st.success("🛡️ Security Enabled")
+    st.success("✅ Google ADK")
+
+    st.success("✅ Multi-Agent")
+
+    st.success("✅ Google Search")
+
+    st.success("✅ PDF Reports")
+
+    st.success("✅ Filesystem")
+
+    st.success("✅ Security")
+
+    st.success("✅ Prompt Injection Detection")
+
+    st.success("✅ Human Approval")
+
+    st.success("✅ Verification")
 
     st.divider()
 
-    st.subheader("Competition")
-
-    st.write("Kaggle AI Agents Capstone")
-
+    st.write("🏆 Kaggle AI Agents Capstone")
 # -------------------------------------------------------
 # HEADER
 # -------------------------------------------------------
@@ -198,13 +208,11 @@ Prepare a complete disaster response report.
     st.divider()
 
     st.subheader("📋 Incident Analysis")
-
     response = ""
 
     if run_incident is None:
 
         st.error("Runner could not be loaded.")
-
         st.code(import_error)
 
     else:
@@ -213,9 +221,19 @@ Prepare a complete disaster response report.
 
             try:
 
+                # Run Incident Commander
                 response = run_incident(prompt)
 
+                # Show response
                 st.write(response)
+
+                # Save report automatically
+                report_path = save_report(
+                    "latest_report.md",
+                    response
+                )
+
+                st.success(f"📁 Report saved to: {report_path}")
 
             except Exception as e:
 
@@ -229,16 +247,14 @@ Prepare a complete disaster response report.
 
     st.subheader("🏥 Hospital Preparation")
 
-    st.markdown(
-        """
+    st.markdown("""
 - Activate disaster response protocol
 - Prepare trauma teams
 - Increase ICU capacity
 - Stock IV fluids
 - Prepare dialysis equipment
 - Prepare emergency surgery units
-"""
-    )
+""")
 
     # -------------------------------------------------------
     # RESOURCE PLANNING
@@ -259,20 +275,23 @@ Prepare a complete disaster response report.
     st.divider()
 
     # -------------------------------------------------------
-    # VERIFICATION
+    # VERIFICATION SUMMARY
     # -------------------------------------------------------
 
-    st.subheader("✅ Verification")
+    st.subheader("✅ Verification Summary")
 
-    st.success("✔ Government Sources")
+    col1, col2 = st.columns(2)
 
-    st.success("✔ WHO Guidance")
+    with col1:
 
-    st.success("✔ UN OCHA Procedures")
+        st.success("✔ Government guidance checked")
+        st.success("✔ WHO emergency procedures")
+        st.success("✔ UN OCHA disaster workflow")
 
-    st.warning("⚠ Magnitude not confirmed")
+    with col2:
 
-    st.warning("⚠ Casualties not confirmed")
+        st.warning("⚠ Earthquake magnitude not confirmed")
+        st.warning("⚠ Casualty numbers still preliminary")
 
     st.metric(
         "Overall Confidence",
@@ -303,13 +322,21 @@ Prepare a complete disaster response report.
         except Exception as e:
 
             st.error(f"PDF Generation Failed: {e}")
-
 # -------------------------------------------------------
 # FOOTER
 # -------------------------------------------------------
+st.divider()
+
+c1, c2, c3 = st.columns(3)
+
+c1.metric("Agents", "5")
+
+c2.metric("Tools", "4")
+
+c3.metric("Status", "Operational")
 
 st.divider()
 
 st.caption(
-    "SentinelAI • Google ADK • Gemini 2.5 Flash • Kaggle AI Agents Capstone"
+    "🌍 SentinelAI • Google ADK • Gemini 2.5 Flash • Kaggle AI Agents Capstone"
 )
