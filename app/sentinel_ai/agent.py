@@ -4,6 +4,7 @@ from .sub_agents import search_agent
 from .sub_agents import medical_agent
 from .sub_agents import supply_agent
 from .sub_agents import verification_agent
+from .sub_agents import report_agent
 
 root_agent = Agent(
     name="incident_commander",
@@ -42,6 +43,7 @@ Always indicate uncertainty.
         search_agent,
         medical_agent,
         supply_agent,
-        verification_agent
+        verification_agent,
+        report_agent,
     ],
 )
