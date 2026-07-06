@@ -1,0 +1,6 @@
+streamlit
+google-adk
+google-genai
+python-dotenv
+reportlab
+pydantic
